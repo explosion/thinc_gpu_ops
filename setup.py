@@ -237,6 +237,7 @@ def setup_package():
             install_requires=[
                 'numpy>=1.7.0',
             ],
+            setup_requires=['wheel>=0.32.0,<0.33.0'],
             classifiers=[
                 'Development Status :: 5 - Production/Stable',
                 'Environment :: Console',
