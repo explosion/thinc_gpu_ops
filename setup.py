@@ -128,6 +128,13 @@ def locate_cuda():
     if 'CUDA_HOME' in os.environ:
         home = os.environ['CUDA_HOME']
         nvcc = os.path.join(home, 'bin', 'nvcc')
+        if not os.path.exists(nvcc):
+            nvcc = os.path.join(home, "bin", "nvcc.exe")
+    elif 'CUDA_PATH' in os.environ:
+        home = os.environ['CUDA_PATH']
+        nvcc = os.path.join(home, "bin", "nvcc")
+        if not os.path.exists(nvcc):
+            nvcc = os.path.join(home, "bin", "nvcc.exe")
     elif os.path.exists('/usr/local/cuda/bin/nvcc'):
         home = '/usr/local/cuda'
         nvcc = os.path.join(home, 'bin', 'nvcc')
@@ -143,6 +150,8 @@ def locate_cuda():
     cudaconfig = {'home':home, 'nvcc':nvcc,
                   'include': os.path.join(home, 'include'),
                   'lib64': os.path.join(home, 'lib64')}
+    if not os.path.exists(cudaconfig['lib64']):
+        cudaconfig['lib64'] = os.path.join(home, 'lib')
     for k, v in cudaconfig.items():
         if not os.path.exists(v):
             print('Warning: The CUDA %s path could not be located in %s' % (k, v))
